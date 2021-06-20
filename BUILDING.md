@@ -55,4 +55,4 @@ The following instructions are for manual building of images. For automated buil
 Compact the VM once more, and export to an ova file.
 
 ## Publishing a release.
-Collect the OVA files for the supported versions, and create a `kutti-images.json` file describing them. Then publish a GitHub release, and upload the `kutti-images.json` file and the OVA files to it.
+Collect the OVA files for the supported versions, and create a `driver-vbox-images.json` file describing them. Then publish a GitHub release, and upload the `driver-vbox-images.json` file and the OVA files to it.
