@@ -17,5 +17,4 @@ Images can be built by manually following the instructions in BUILDING.md, or by
 ## Components
 The images in this repository are built from open source components. Details can be found in COMPONENTS.md.
 
-
-Icon made by [Freepik](https://www.freepik.com) from [Flaticon](http://www.flaticon.com)
+<img src="https://github.com/kuttiproject/driver-vbox-images/blob/main/attachments/icon/kutta.png?raw=true" width="32" height="32" /> Icon made by [Freepik](https://www.freepik.com) from [Flaticon](http://www.flaticon.com)
