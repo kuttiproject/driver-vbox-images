@@ -13,7 +13,7 @@ source "virtualbox-ovf" "kutti-vbox" {
 
     shutdown_command = "sudo poweroff"
 
-    # Guest additions will be built in this steo. So,
+    # Guest additions will be built in this step. So,
     # the guest additions ISO should be attached as a
     # CD device during build.
     guest_additions_mode = "attach"
@@ -58,7 +58,7 @@ source "virtualbox-ovf" "kutti-vbox" {
     ]
     format = "ova"
 
-    # The output file should be called kutti-base.ova
+    # The output file should be called kutti-vbox.ova
     vm_name = "kutti-vbox"
 
     headless = true
@@ -110,11 +110,15 @@ build {
     }
 
     provisioner "shell" {
+        # The link-scripts script creates symbolic
+        # links for the tools installed in the prior
+        # step in /usr/local/bin.
         # The cleanup script removes unneeded stuff.
         # The pre-compact script fills the VM hard
         # disk with zeroes, and the deletes the file.
         # This allows VirtualBox to compact the disk.
         scripts = [
+            "buildscripts/link-scripts.sh",
             "buildscripts/cleanup.sh",
             "buildscripts/pre-compact.sh"
         ]

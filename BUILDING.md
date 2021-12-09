@@ -37,7 +37,9 @@ The following instructions are for manual building of images. For automated buil
 24. Forward the SSH port for the installation VM. Start the VM. Copy the included **attachments/kutti-installscripts** directory  to **/home/kuttiadmin/kutti-installscripts** in the VM using scp. Then, copy the included **buildscripts/setup-kubernetes.sh** file to the same directory in the VM. The files should have UNIX line endings after the copy. Verify that, and rectify if needed.
 25. Use SSH to log on to the installation VM as kuttiadmin. Go to the **kutti-installscripts** directory and run `chmod +x *.sh`.
 26. Run `KUBE_VERSION=<version> ./setup-kubernetes.sh` to install kubernetes and supported docker. Currently suppported versions are:
-  * 1.21* (The '*' is important)
+  * 1.23* (The '*' is important)
+  * 1.22*
+  * 1.21*
   * 1.20*
   * 1.19*
 
