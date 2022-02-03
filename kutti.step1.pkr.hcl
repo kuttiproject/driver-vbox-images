@@ -1,10 +1,22 @@
+variable "iso-url" {
+    # Location of the base debian netinst iso
+    type = string
+    default = "./iso/debian-10.6.0-amd64-netinst.iso"
+}
+
+variable "iso-checksum" {
+    # Checksum of the base debian netinst iso
+    type = string
+    default = "md5:42c43392d108ed8957083843392c794b"
+}
+
 source "virtualbox-iso" "kutti-base" {
     # Before using this script, you need to obtain a debian
     # netinst ISO, and put it in a folder called "iso".
     # The iso name and its checksum should be updated here.
     # The last build used debian 10.6.0.
-    iso_url = "./iso/debian-10.6.0-amd64-netinst.iso"
-    iso_checksum = "md5:42c43392d108ed8957083843392c794b"
+    iso_url = "${ var.iso-url }"
+    iso_checksum = "${ var.iso-checksum }"
 
     # Create a VM with 
     #  - 2 cpu cores

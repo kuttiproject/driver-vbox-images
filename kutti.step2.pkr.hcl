@@ -3,6 +3,16 @@ variable "kube-version" {
     default = env("KUBE_VERSION")
 }
 
+variable "vm-version" {
+    type = string
+    default = "latest"
+}
+
+variable "vm-description" {
+    type = string
+    default = "Kutti VirtualBox Image"
+}
+
 source "virtualbox-ovf" "kutti-vbox" {
     source_path = "./output-kutti-base/kutti-base.ova"
     checksum = "none"
@@ -54,7 +64,10 @@ source "virtualbox-ovf" "kutti-vbox" {
     # Ensure that MAC addresses are stripped at export
     export_opts = [
         "--manifest",
-        "--options", "nomacs"
+        "--options", "nomacs",
+        "--vsys", "0",
+        "--description", "${ var.vm-description }",
+        "--version", "${ var.vm-version }"
     ]
     format = "ova"
 
