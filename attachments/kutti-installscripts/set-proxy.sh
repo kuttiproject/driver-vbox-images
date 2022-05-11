@@ -2,7 +2,7 @@
 set -e
 
 function usage () {
-    echo "Usage: $0 [OPTIONS] PROXYADDRESS NOPROXYADDRESSES"
+    echo "Usage: $0 [OPTIONS] PROXYADDRESS [NOPROXYADDRESSES]"
     echo
     echo "Options:"
     echo "-r    Removes proxy settings. No need to specify further parameters."
