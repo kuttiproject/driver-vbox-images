@@ -1,11 +1,11 @@
 VERSION_MAJOR ?= 0
 VERSION_MINOR ?= 2
-BUILD_NUMBER  ?= 4
+BUILD_NUMBER  ?= 5
 PATCH_NUMBER  ?= 
 VERSION_STRING = $(VERSION_MAJOR).$(VERSION_MINOR).$(BUILD_NUMBER)$(PATCH_NUMBER)
 
-OS_ISO_PATH ?= "iso/debian-10.6.0-amd64-netinst.iso"
-OS_ISO_CHECKSUM ?= "md5:42c43392d108ed8957083843392c794b"
+OS_ISO_PATH ?= "iso/debian-11.3.0-amd64-netinst.iso"
+OS_ISO_CHECKSUM ?= "md5:e7a5a4fc5804ae65f7487e68422368ad"
 
 KUBE_VERSION ?=
 KUBE_VERSION_DESCRIPTION = $(or $(KUBE_VERSION),"latest")
@@ -25,14 +25,14 @@ usage:
 output-kutti-base/kutti-base.ova: kutti.step1.pkr.hcl
 	packer build -var "iso-url=$(OS_ISO_PATH)" -var "iso-checksum=$(OS_ISO_CHECKSUM)" $<
 
-output-kutti-vbox/kutt-vbox.ova: kutti.step2.pkr.hcl output-kutti-base/kutti-base.ova
+output-kutti-vbox/kutti-vbox.ova: kutti.step2.pkr.hcl output-kutti-base/kutti-base.ova
 	packer build -var "vm-version=$(VERSION_STRING)" -var "vm-description=$$VM_DESCRIPTION" $<
 
 .PHONY: step1
 step1: output-kutti-base/kutti-base.ova
 
 .PHONY: step2
-step2: output-kutti-vbox/kutt-vbox.ova
+step2: output-kutti-vbox/kutti-vbox.ova
 
 .PHONY: all
 all: step1 step2

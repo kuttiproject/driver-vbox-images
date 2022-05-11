@@ -41,6 +41,8 @@ apt-get update && apt-get install -y containerd.io
 echo "Configuring containerd..."
 mkdir -p /etc/containerd
 containerd config default | tee /etc/containerd/config.toml
+echo "Setting cgroup driver to systemd"
+sed --in-place 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
 echo "Starting containerd..."
 systemctl restart containerd
 echo "------------------------"
