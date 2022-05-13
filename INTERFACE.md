@@ -24,3 +24,6 @@ This sets or removes node-wide proxy settings. To set, it adds lines defining `h
 
 ## set-proxy-2.sh
 This is an alternate method for setting or removing node-wide proxy settings. To set, it adds two files containing proxy settings: `/etc/profile.d/kutti-proxy.sh` for interactive programs, and `/etc/systemd/system.conf.d/kutti-proxy.conf` for daemons. To remove, it deletes these files.
+
+## add-ca-certificate.sh
+This adds a certificate to the operating system's trusted store.

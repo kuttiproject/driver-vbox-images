@@ -8,7 +8,7 @@ second step can be run multiple times to generate images for different versions 
 ## Build Prerequisites
 
 1. Oracle VirtualBox, version 6.0 or above. The `VBoxManage` tool must be on the path.
-2. HashiCorp Packer, version 1.7.2 or above.
+2. HashiCorp Packer, version 1.7.2 or above. NOTE: 1.8.0 has a problem with OVA files.
 3. A Debian netinst ISO image. This has to be downloaded into a folder called ISO in this directory, and its name and checksum updated in the `kutti.step1.pkr.hcl` file.
 
 ## Build Instructions
@@ -17,11 +17,11 @@ second step can be run multiple times to generate images for different versions 
 3. Update the file `kutti.step1.pkr.hcl` with the path and checksum of this file.
 4. Run `packer build kutti.step1.pkr.hcl` to generate an OVA for a bare OS image.
 5. Run `packer -var "kube-version=DESIREDVERSION" kutti.step2.pkr.hcl`. Here, DESIREDVERSION is the kubernetes version, as it is published in the google debian repository for Kubernetes. If you leave out the `-var "kube-version=` part, the script will pick up the latest available Kubernetes version. Currently supported values are:
-  * 1.23* (The '*' is important)
+  * 1.24* (The '*' is important)
+  * 1.23*
   * 1.22*
   * 1.21*
-  * 1.20*
-  * 1.19*
+
 
 ## Details
 ### Step 1
@@ -49,6 +49,10 @@ The second step is the script `kutti.step.pkr.hcl`. This starts from a VM create
 * Compacts the virtual hard disk
 * Adds an icon
 * Exports to the final OVA. 
+
+## Makefile
+The steps described above can also be performed via a supplied makefile and GNU make.
+`make step1` and `make step2` can be used.
 
 ## Publishing a release.
 Collect the OVA files for the supported versions, and create a `driver-vbox-images.json` file describing them. Then publish a GitHub release, and upload the `driver-vbox-images.json` file and the OVA files to it.
