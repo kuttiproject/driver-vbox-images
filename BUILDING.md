@@ -63,4 +63,4 @@ Compact the VM once more, and export to an .ova file.
 
 ## Publishing a release
 
-Collect the .ova files for the supported versions, and create a `driver-vbox-images.json` file describing them. Then publish a GitHub release, and upload the `driver-vbox-images.json` file and the .ova files to it.
+Collect the .ova files for the supported versions, and create a `driver-vbox-images.json` file describing them. Then publish a GitHub release, and upload the `driver-vbox-images.json` file and the .ova files to it. Details can be found in [RELEASE.md](RELEASE.md).

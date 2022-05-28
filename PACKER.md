@@ -12,20 +12,23 @@ second step can be run multiple times to generate images for different versions 
 3. A Debian netinst ISO image. This has to be downloaded into a folder called ISO in this directory, and its name and checksum updated in the `kutti.step1.pkr.hcl` file.
 
 ## Build Instructions
+
 1. Create a folder called "iso" in the current directory.
 2. Download a Debian netinst ISO file into this directory.
 3. Update the file `kutti.step1.pkr.hcl` with the path and checksum of this file.
 4. Run `packer build kutti.step1.pkr.hcl` to generate an OVA for a bare OS image.
 5. Run `packer -var "kube-version=DESIREDVERSION" kutti.step2.pkr.hcl`. Here, DESIREDVERSION is the kubernetes version, as it is published in the google debian repository for Kubernetes. If you leave out the `-var "kube-version=` part, the script will pick up the latest available Kubernetes version. Currently supported values are:
-  * 1.24* (The '*' is important)
-  * 1.23*
-  * 1.22*
-  * 1.21*
 
+* 1.24\* (The '*' is important)
+* 1.23*
+* 1.22*
 
 ## Details
+
 ### Step 1
+
 The first step is the script `kutti.step1.pkr.hcl`, which builds an OVA file from a Debian netinst CD ISO image. It uses a preseed file to configure the installation. Some important settings are as follows:
+
 * US keyboard layout and language is US
 * Locale and timezone are India
 * The root password is "Pass@word1"
@@ -35,7 +38,9 @@ The first step is the script `kutti.step1.pkr.hcl`, which builds an OVA file fro
 * The kuttiadmin user is given sudo rights without a password.
 
 ### Step 2
+
 The second step is the script `kutti.step.pkr.hcl`. This starts from a VM created from the output of the previous step, and does the following:
+
 * Builds VirtualBox Guest Additions
 * Configures GRUB for:
   * zero wait at boot
@@ -48,11 +53,13 @@ The second step is the script `kutti.step.pkr.hcl`. This starts from a VM create
 * Writes a huge file filled with zeroes to fill the virtual HDD, and deletes it
 * Compacts the virtual hard disk
 * Adds an icon
-* Exports to the final OVA. 
+* Exports to the final OVA.
 
 ## Makefile
+
 The steps described above can also be performed via a supplied makefile and GNU make.
 `make step1` and `make step2` can be used.
 
-## Publishing a release.
-Collect the OVA files for the supported versions, and create a `driver-vbox-images.json` file describing them. Then publish a GitHub release, and upload the `driver-vbox-images.json` file and the OVA files to it.
+## Publishing a release
+
+Collect the .ova files for the supported versions, and create a `driver-vbox-images.json` file describing them. Then publish a GitHub release, and upload the `driver-vbox-images.json` file and the .ova files to it. Details can be found in [RELEASE.md](RELEASE.md).

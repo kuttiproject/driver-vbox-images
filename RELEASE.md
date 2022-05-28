@@ -2,6 +2,10 @@
 
 Each release from this repository contains .ova files for supported versions of Kubernetes, and a file called **driver-vbox-images.json** which describes these releases. The location on these files in the GitHub release is burned into the corresponding version of the vbox driver.
 
+## .ova files
+
+These files can be built by manually following the instructions in [BUILDING.md](BUILDING.md), or by running the Packer scripts as detailed in [PACKER.md](PACKER.md).
+
 ## driver-vbox-images.json
 
 The schema for this file is as follows:
