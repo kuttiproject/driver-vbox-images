@@ -1,7 +1,7 @@
 variable "iso-url" {
     # Location of the base debian netinst iso
     type = string
-    default = "./iso/debian-10.6.0-amd64-netinst.iso"
+    default = "./iso/debian-11.3.0-amd64-netinst.iso"
 }
 
 variable "iso-checksum" {

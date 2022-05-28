@@ -1,10 +1,12 @@
 # Releases
-Each release from this repository contains .OVA files for supported versions of Kubernetes, and a file called `driver-vbox-images.json` which describes these releases. The location on these files in the GitHub release is burned into the correspoint version of the kutti tool.
+
+Each release from this repository contains .ova files for supported versions of Kubernetes, and a file called **driver-vbox-images.json** which describes these releases. The location on these files in the GitHub release is burned into the corresponding version of the vbox driver.
 
 ## driver-vbox-images.json
+
 The schema for this file is as follows:
 
-```
+```json
 {
     "KUBERNETES VERSION": {
         "ImageK8sVersion": "KUBERNETES VERSION (must match key above)",
@@ -15,9 +17,10 @@ The schema for this file is as follows:
     },...
 }
 ```
+
 A sample is provided below:
 
-```
+```json
 {
     "1.24": {
         "ImageK8sVersion": "1.24",

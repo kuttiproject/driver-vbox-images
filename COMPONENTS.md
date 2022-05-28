@@ -4,4 +4,4 @@
 - containerd.io v1.6.4-1
 - kubelet, kubectl, kubeadm (appropriate versions)
 
-Icon made by [Freepik](https://www.freepik.com) from [Flaticon](http://www.flaticon.com)
+<img src="https://github.com/kuttiproject/driver-vbox-images/blob/main/attachments/icon/kutta.png?raw=true" width="32" height="32" />Icon made by [Freepik](https://www.freepik.com) from [Flaticon](http://www.flaticon.com)

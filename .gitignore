@@ -12,3 +12,6 @@ iso/
 
 # ova output directories
 output-*/
+
+# Editor settings
+.vscode/
