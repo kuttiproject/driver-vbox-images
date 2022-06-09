@@ -123,20 +123,31 @@ build {
     }
 
     provisioner "shell" {
-        # The link-scripts script creates symbolic
-        # links for the tools installed in the prior
-        # step in /usr/local/bin.
+        # The process-scripts script processes the
+        # the tools installed in the prior step as
+        # follows:
+        #   * converts line endings to Linux/UNIX
+        #   * makes them executable
+        #   * makes symbolic links in /usr/local/bin.
         # The cleanup script removes unneeded stuff.
+        # The stamp-kuttirelease script creates a
+        # file /etc/kutti-release, which contains
+        # the versions of the components.
         # The pre-compact script fills the VM hard
         # disk with zeroes, and the deletes the file.
         # This allows VirtualBox to compact the disk.
         scripts = [
-            "buildscripts/link-scripts.sh",
+            "buildscripts/process-scripts.sh",
             "buildscripts/cleanup.sh",
+            "buildscripts/stamp-kuttirelease.sh",
             "buildscripts/pre-compact.sh"
         ]
         # These scripts must be run with sudo access
         execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
 
+        # Ensure the VM_VERSION variable.
+        environment_vars = [
+            "VM_VERSION=${ var.vm-version }"
+        ]
     }
 }
