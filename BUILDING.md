@@ -40,10 +40,10 @@ The following instructions are for manual building of images. For automated buil
 25. Use SSH to log on to the installation VM as kuttiadmin. Go to the **kutti-installscripts** directory and run `chmod +x *.sh`.
 26. Run `KUBE_VERSION=<version> ./setup-kubernetes.sh` to install kubernetes with containderd. Currently suppported versions are:
 
-* 1.24\* (The '*' is important)
-* 1.23*
-* 1.22*
-* 1.21*
+* 1.24
+* 1.23
+* 1.22
+
 
 27. Verify that kubeadm is installed by running `kubeadm`. Verify the kubectl autocomplete works.
 

@@ -67,7 +67,7 @@ if [ "" = "${KUBE_VERSION:-}" ]; then
     apt-get install -y kubelet kubeadm kubectl
 else
     echo "Version $KUBE_VERSION"
-    apt-get install -y kubelet="$KUBE_VERSION" kubeadm="$KUBE_VERSION" kubectl="$KUBE_VERSION"
+    apt-get install -y kubelet="$KUBE_VERSION*" kubeadm="$KUBE_VERSION*" kubectl="$KUBE_VERSION*"
 fi
 apt-mark hold kubelet kubeadm kubectl
 echo "Done."

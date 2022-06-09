@@ -26,7 +26,7 @@ output-kutti-base/kutti-base.ova: kutti.step1.pkr.hcl
 	packer build -var "iso-url=$(OS_ISO_PATH)" -var "iso-checksum=$(OS_ISO_CHECKSUM)" $<
 
 output-kutti-vbox/kutti-vbox.ova: kutti.step2.pkr.hcl output-kutti-base/kutti-base.ova
-	packer build -var "vm-version=$(VERSION_STRING)" -var "vm-description=$$VM_DESCRIPTION" $<
+	packer build -var "vm-version=$(VERSION_STRING)" -var "kube-version=$(KUBE_VERSION)" -var "vm-description=$$VM_DESCRIPTION" $<
 
 .PHONY: step1
 step1: output-kutti-base/kutti-base.ova

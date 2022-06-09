@@ -19,9 +19,9 @@ second step can be run multiple times to generate images for different versions 
 4. Run `packer build kutti.step1.pkr.hcl` to generate an OVA for a bare OS image.
 5. Run `packer -var "kube-version=DESIREDVERSION" kutti.step2.pkr.hcl`. Here, DESIREDVERSION is the kubernetes version, as it is published in the google debian repository for Kubernetes. If you leave out the `-var "kube-version=` part, the script will pick up the latest available Kubernetes version. Currently supported values are:
 
-* 1.24\* (The '*' is important)
-* 1.23*
-* 1.22*
+* 1.24
+* 1.23
+* 1.22
 
 ## Details
 
