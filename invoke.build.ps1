@@ -1,7 +1,7 @@
 param(
     $VersionMajor  = (property VERSION_MAJOR "0"),
     $VersionMinor  = (property VERSION_MINOR "3"),
-    $BuildNumber   = (property BUILD_NUMBER  "0"),
+    $BuildNumber   = (property BUILD_NUMBER  "1"),
     $PatchString   = (property PATCH_NUMBER  ""),
     $OSISOPath     = (property OS_ISO_PATH "iso/debian-11.3.0-amd64-netinst.iso"),
     $OSISOChecksum = (property OS_ISO_CHECKSUM "md5:e7a5a4fc5804ae65f7487e68422368ad"),

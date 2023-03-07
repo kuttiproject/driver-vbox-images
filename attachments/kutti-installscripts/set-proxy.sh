@@ -20,12 +20,6 @@ function usage () {
     echo
 }
 
-function delete_proxy_lines () {
-    if [ -f /etc/environment ]; then
-        sed -i -E "/^export (http(s){0,1})|(no)_proxy=(.*)$/d" /etc/environment
-    fi
-}
-
 function generate_no_proxy() {
     local RESULT=""
     for ((i=IPSTART; i<=IPEND; i++)); do
@@ -53,13 +47,21 @@ if [ "$(id -ur)" -ne 0 ]; then
 fi
 
 if [ "$1" == "-r" ]; then
-    echo "Removing proxy..."
+    echo "Removing user proxy..."
     unset http_proxy
     unset https_proxy
     unset no_proxy
-    delete_proxy_lines
+    rm -f /etc/profile.d/kutti-proxy.sh
     echo "Done."
 
+    echo "Removing daemon proxy..."
+    rm -f /etc/systemd/system.conf.d/kutti-proxy.conf
+    echo "Restarting daemons..."
+    systemctl daemon-reload
+    systemctl restart containerd kubelet
+    echo "Done."
+
+    echo "Proxy configuration removed. A reboot may be required."
     exit 0
 fi
 
@@ -82,14 +84,37 @@ if [ "$NOPROXYADDRESSES" = "" ]; then
     NOPROXYADDRESSES=$(generate_no_proxy)
 fi
 
-echo "Setting up proxy..."
-delete_proxy_lines
-cat  <<ENDPROXY >>/etc/environment
+echo "Setting up user proxy..."
+
+cat  <<ENDPROXY >>/etc/profile.d/kutti-proxy.sh
 export http_proxy=${PROXYADDRESS}
 export https_proxy=${PROXYADDRESS}
 export no_proxy=127.0.0.1,localhost,${NOPROXYADDRESSES}
 ENDPROXY
+
+# shellcheck source=/dev/null
+source /etc/profile.d/kutti-proxy.sh
+
 echo "Done."
 
-echo "Proxy configured. Please reboot for changes to reflect."
+echo "Setting up daemon proxy..."
+
+if [ ! -d /etc/systemd/system.conf.d ]; then
+    mkdir -p /etc/systemd/system.conf.d
+fi
+
+cat >>/etc/systemd/system.conf.d/kutti-proxy.conf <<ENDDAEMON
+[Manager]
+DefaultEnvironment="http_proxy=${PROXYADDRESS}"
+DefaultEnvironment="https_proxy=${PROXYADDRESS}"
+DefaultEnvironment="no_proxy=127.0.0.1,localhost,${NOPROXYADDRESSES}"
+ENDDAEMON
+
+echo "Restarting daemons..."
+systemctl daemon-reload
+systemctl restart containerd kubelet
+
+echo "Done."
+
+echo "Proxy configured. A reboot may be required."
 exit 0

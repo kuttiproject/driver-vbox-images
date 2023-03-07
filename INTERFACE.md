@@ -26,12 +26,12 @@ This captures or removes CA certificates. To capture, it uses openssl to make a 
 
 ## set-proxy.sh
 
-This sets or removes node-wide proxy settings. To set, it adds lines defining `http_proxy`, `https_proxy` and `no_proxy` lines to `/etc/environment`. To remove, it deletes these lines.
+This sets or removes node-wide proxy settings. To set, it adds two files containing proxy settings: `/etc/profile.d/kutti-proxy.sh` for interactive programs, and `/etc/systemd/system.conf.d/kutti-proxy.conf` for daemons. To remove, it deletes these files.
 
 ## set-proxy-2.sh
 
-This is an alternate method for setting or removing node-wide proxy settings. To set, it adds two files containing proxy settings: `/etc/profile.d/kutti-proxy.sh` for interactive programs, and `/etc/systemd/system.conf.d/kutti-proxy.conf` for daemons. To remove, it deletes these files.
+This is an alternate method for setting or removing node-wide proxy settings. To set, it adds lines defining `http_proxy`, `https_proxy` and `no_proxy` lines to `/etc/environment`. To remove, it deletes these lines.
 
 ## add-ca-certificate.sh
 
-This adds a certificate to the operating system's trusted store.
+This adds a certificate to the operating system's trusted store. The certificate file must be in PEM format, with the filename ending in .crt.
