@@ -9,17 +9,19 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Install VirtualBox Guest Additions
 echo "==> Installing VirtualBox guest additions"
-    
+
+apt-get update
+
 ## Install build packages
 echo "Installing build packages..."
-apt-get install -y dkms build-essential linux-headers-$(uname -r)
+apt-get install -y dkms build-essential "linux-headers-$(uname -r)" libxt6 libxmu6
 echo "Done."
    
 ## Assuming that the Guest Additions CD has been "attached"
 echo "Building guest additions..."
 mount -r /media/cdrom
 BUILDERR=0
-sh /media/cdrom/VBoxLinuxAdditions.run || BUILDERR=$? 
+sh /media/cdrom/VBoxLinuxAdditions.run --nox11|| BUILDERR=$? 
 if [ "$BUILDERR" != "2" ] && [ "$BUILDERR" != "0" ]; then
     echo 2>&1 "Error while building guest additions: code $BUILDERR"
     exit $BUILDERR

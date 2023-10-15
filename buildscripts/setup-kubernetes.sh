@@ -51,14 +51,11 @@ echo
 
 ## Install kubelet, kubeadm, kubectl
 echo "==> Installing kubelet, kubeadm and kubectl..."
-
 echo "Adding kubernetes apt key..."
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -qq - >/dev/null 2>&1
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 echo "Done."
 echo "Adding kubernetes apt repository..."
-cat <<EOFKUBLIST >/etc/apt/sources.list.d/kubernetes.list
-deb https://apt.kubernetes.io/ kubernetes-xenial main
-EOFKUBLIST
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 apt-get update -y
 echo "Done."
 echo "Installing..."
