@@ -5,6 +5,11 @@ if [ "$(id -ur)" -ne "0" ]; then
     exit 1
 fi
 
+if [ "" = "${KUBE_VERSION:-}" ]; then
+    echo "KUBE_VERSION must be specified."
+    exit 1
+fi
+
 export DEBIAN_FRONTEND=noninteractive
 
 # Set up containerd
@@ -17,8 +22,8 @@ overlay
 br_netfilter
 EOMODCONF
 
-sudo modprobe overlay
-sudo modprobe br_netfilter
+modprobe overlay
+modprobe br_netfilter
 echo "Done."
 
 ## Configure iptables
@@ -35,8 +40,11 @@ echo "Done."
 echo "Installing containerd..."
 echo "------------------------"
 echo "Adding official docker repository..."
-curl -fsSL "https://download.docker.com/linux/debian/gpg" | apt-key add -qq - >/dev/null 2>&1
-echo "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" > /etc/apt/sources.list.d/docker.list
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+# shellcheck disable=SC1091
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt-get update && apt-get install -y containerd.io
 echo "Configuring containerd..."
 mkdir -p /etc/containerd
@@ -50,22 +58,16 @@ echo "Done."
 echo
 
 ## Install kubelet, kubeadm, kubectl
-echo "==> Installing kubelet, kubeadm and kubectl..."
-echo "Adding kubernetes apt key..."
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo "==> Installing kubelet, kubeadm and kubectl v${KUBE_VERSION}..."
+echo "Adding kubernetes apt key from https://pkgs.k8s.io/core:/stable:/v${KUBE_VERSION}/deb/Release.key..."
+curl -fsSL "https://pkgs.k8s.io/core:/stable:/v${KUBE_VERSION}/deb/Release.key" | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 echo "Done."
 echo "Adding kubernetes apt repository..."
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v${KUBE_VERSION}/deb/ /" | tee /etc/apt/sources.list.d/kubernetes.list
 apt-get update -y
 echo "Done."
 echo "Installing..."
-if [ "" = "${KUBE_VERSION:-}" ]; then
-    echo "Latest version."
-    apt-get install -y kubelet kubeadm kubectl
-else
-    echo "Version $KUBE_VERSION"
-    apt-get install -y kubelet="$KUBE_VERSION*" kubeadm="$KUBE_VERSION*" kubectl="$KUBE_VERSION*"
-fi
+apt-get install -y kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
 echo "Done."
 

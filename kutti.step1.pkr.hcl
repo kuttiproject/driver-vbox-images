@@ -1,3 +1,12 @@
+packer {
+    required_plugins {
+        virtualbox = {
+          version = "~> 1"
+          source  = "github.com/hashicorp/virtualbox"
+        }
+    }
+}
+
 variable "iso-url" {
   # Location of the base debian netinst iso
   type    = string

@@ -1,3 +1,12 @@
+packer {
+    required_plugins {
+        virtualbox = {
+          version = "~> 1"
+          source  = "github.com/hashicorp/virtualbox"
+        }
+    }
+}
+
 variable "kube-version" {
   type    = string
   default = env("KUBE_VERSION")
