@@ -81,8 +81,8 @@ echo "Welcome to kutti." > /etc/motd
 # Add required system packages
 echo "==> Adding required system packages"
 
-echo "Installing bash completion, vim and curl..."
-apt-get install -y apt-transport-https bash-completion vim curl
+echo "Installing bash completion, socat, vim and curl..."
+apt-get install -y apt-transport-https bash-completion socat vim curl
 echo "Done."
 
 # Add user1

@@ -1,13 +1,13 @@
 VERSION_MAJOR ?= 0
 VERSION_MINOR ?= 3
-BUILD_NUMBER  ?= 1
+BUILD_NUMBER  ?= 2
 PATCH_NUMBER  ?= 
 VERSION_STRING = $(VERSION_MAJOR).$(VERSION_MINOR).$(BUILD_NUMBER)$(PATCH_NUMBER)
 
-OS_ISO_PATH ?= "iso/debian-12.2.0-amd64-netinst.iso"
-OS_ISO_CHECKSUM ?= "sha256:23ab444503069d9ef681e3028016250289a33cc7bab079259b73100daee0af66"
+OS_ISO_PATH ?= "iso/debian-12.7.0-amd64-netinst.iso"
+OS_ISO_CHECKSUM ?= "sha256:8fde79cfc6b20a696200fc5c15219cf6d721e8feb367e9e0e33a79d1cb68fa83"
 
-KUBE_VERSION ?= 1.29
+KUBE_VERSION ?= 1.31
 KUBE_VERSION_DESCRIPTION = $(or $(KUBE_VERSION),"latest")
 
 define VM_DESCRIPTION
@@ -39,11 +39,11 @@ all: step1 step2
 
 .PHONY: clean-step1
 clean-step1:
-	rm -r output-kutti-base/
+	rm -rf output-kutti-base/
 
 .PHONY: clean-step2
 clean-step2:
-	rm -r output-kutti-vbox/
+	rm -rf output-kutti-vbox/
 
 .PHONY: clean
-clean: clean-step2 clean-step1
+clean: clean-step1 clean-step2

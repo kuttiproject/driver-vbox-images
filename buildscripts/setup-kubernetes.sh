@@ -51,6 +51,32 @@ mkdir -p /etc/containerd
 containerd config default | tee /etc/containerd/config.toml
 echo "Setting cgroup driver to systemd"
 sed --in-place 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
+
+## Change default sandbox image version
+## Sandbox Image version is the default version of the 
+## Kubernetes pause image, used for setting up shared
+## namespaces in pods
+case "${KUBE_VERSION}" in
+  "1.29")
+    SANDBOX_IMAGE_VERSION="3.8"
+    ;;
+  "1.30")
+    SANDBOX_IMAGE_VERSION="3.9"
+    ;;
+  "1.31")
+    SANDBOX_IMAGE_VERSION="3.10"
+    ;;
+  default)
+    SANDBOX_IMAGE_VERSION=""
+    ;;
+esac
+
+if [ -n "${SANDBOX_IMAGE_VERSION}" ]; then
+  echo "Changing default sandbox image to registry.k8s.io/pause:${SANDBOX_IMAGE_VERSION}"
+  SEDCMD="s/sandbox_image = \"registry.k8s.io\/pause:\([0-9]\{1,2\}\)\.\([0-9]\{1,2\}\)\"/sandbox_image = \"registry.k8s.io\/pause:${SANDBOX_IMAGE_VERSION}\"/g"
+  sed --in-place "${SEDCMD}" /etc/containerd/config.toml
+fi
+
 echo "Starting containerd..."
 systemctl restart containerd
 echo "------------------------"

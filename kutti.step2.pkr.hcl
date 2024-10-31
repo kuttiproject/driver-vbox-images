@@ -51,14 +51,17 @@ source "virtualbox-ovf" "kutti-vbox" {
     "output-kutti-vbox/kutti-vbox-disk001.vdi"
   ]
 
-  # VirtualBox 7 requires this addition setting for accessing
-  # the preseed file over http
-  # TODO:MORE COMMENTS HERE
+  # VirtualBox 7 requires localhostreachable attribute
+  # set to "on" for accessing localhost when the VM is
+  # connected to a NAT interface. See:
+  # https://github.com/hashicorp/packer/issues/12118
+  # Debian 12 requires at least 8MB vram with the
+  # VMSVGA adapter. 
   vboxmanage = [
     ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
     ["modifyvm", "{{.Name}}", "--vrde", "off"],
     ["modifyvm", "{{.Name}}", "--graphicscontroller", "vmsvga"],
-    ["modifyvm", "{{.Name}}", "--vram", "6"],
+    ["modifyvm", "{{.Name}}", "--vram", "8"],
   ]
 
   # After all provisioners have run, and the VM has

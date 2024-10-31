@@ -10,13 +10,13 @@ packer {
 variable "iso-url" {
   # Location of the base debian netinst iso
   type    = string
-  default = "./iso/debian-12.2.0-amd64-netinst.iso"
+  default = "./iso/debian-12.7.0-amd64-netinst.iso"
 }
 
 variable "iso-checksum" {
   # Checksum of the base debian netinst iso
   type    = string
-  default = "sha256:23ab444503069d9ef681e3028016250289a33cc7bab079259b73100daee0af66"
+  default = "sha256:8fde79cfc6b20a696200fc5c15219cf6d721e8feb367e9e0e33a79d1cb68fa83"
 }
 
 source "virtualbox-iso" "kutti-base" {
@@ -76,6 +76,17 @@ source "virtualbox-iso" "kutti-base" {
     "hostname=kutti <wait>",
     "<enter><wait>"
   ]
+  # boot_command = [
+  #   "<esc><wait>",
+  #   "install <wait>",
+  #   "fb=false <wait>",
+  #   "auto=true <wait>",
+  #   "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed_buster.cfg <wait>",
+  #   "domain=kuttiproject.org <wait>",
+  #   "hostname=kutti <wait>",
+  #   "<enter><wait>"
+  # ]
+
 
   # Although this step needs no ssh, these settings must be
   # specified.
