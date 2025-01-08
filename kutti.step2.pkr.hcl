@@ -46,7 +46,7 @@ source "virtualbox-ovf" "kutti-vbox" {
     "--vsys",
     "0",
     "--unit",
-    "10",
+    "11",
     "--disk",
     "output-kutti-vbox/kutti-vbox-disk001.vdi"
   ]

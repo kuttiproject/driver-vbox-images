@@ -1,11 +1,11 @@
 param(
     $VersionMajor  = (property VERSION_MAJOR "0"),
     $VersionMinor  = (property VERSION_MINOR "3"),
-    $BuildNumber   = (property BUILD_NUMBER  "1"),
+    $BuildNumber   = (property BUILD_NUMBER  "3"),
     $PatchString   = (property PATCH_NUMBER  ""),
-    $OSISOPath     = (property OS_ISO_PATH "iso/debian-12.2.0-amd64-netinst.iso"),
-    $OSISOChecksum = (property OS_ISO_CHECKSUM "sha256:23ab444503069d9ef681e3028016250289a33cc7bab079259b73100daee0af66"),
-    $KubeVersion   = (property KUBE_VERSION "1.29")
+    $OSISOPath     = (property OS_ISO_PATH "iso/debian-12.7.0-amd64-netinst.iso"),
+    $OSISOChecksum = (property OS_ISO_CHECKSUM "sha256:8fde79cfc6b20a696200fc5c15219cf6d721e8feb367e9e0e33a79d1cb68fa83"),
+    $KubeVersion   = (property KUBE_VERSION "1.32")
 )
 
 $VersionString = "$($VersionMajor).$($VersionMinor).$($BuildNumber)$($PatchString)"
