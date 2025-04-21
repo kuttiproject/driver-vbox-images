@@ -42,6 +42,10 @@ source "virtualbox-ovf" "kutti-vbox" {
   # format. This will allow us to compact it after
   # finishing setup, thus reducing the size of the
   # final OVA.
+  # Note that the virtual hard disk is assumed to
+  # be unit 11 in the source ova. This can be 
+  # verified by running `VBoxManage import OVAFILE
+  # --dry-run`.
   import_flags = [
     "--vsys",
     "0",
@@ -55,13 +59,13 @@ source "virtualbox-ovf" "kutti-vbox" {
   # set to "on" for accessing localhost when the VM is
   # connected to a NAT interface. See:
   # https://github.com/hashicorp/packer/issues/12118
-  # Debian 12 requires at least 8MB vram with the
+  # Debian 12 requires at least 16MB vram with the
   # VMSVGA adapter. 
   vboxmanage = [
     ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"],
     ["modifyvm", "{{.Name}}", "--vrde", "off"],
     ["modifyvm", "{{.Name}}", "--graphicscontroller", "vmsvga"],
-    ["modifyvm", "{{.Name}}", "--vram", "8"],
+    ["modifyvm", "{{.Name}}", "--vram", "16"],
   ]
 
   # After all provisioners have run, and the VM has

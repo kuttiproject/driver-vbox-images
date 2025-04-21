@@ -4,8 +4,8 @@ The following instructions are for manual building of images. For automated buil
 
 ## Base Setup
 
-1. Download **debian-12.2.0-amd64-netinst.iso** (Debian "bookworm" _"stable"_ release, _"netinst"_ image) via [https://www.debian.org/releases/](https://www.debian.org/releases/).
-2. Create a virtual machine with at least 2 cores, 2GB RAM, 8MB video memory and 100GB hard disk. Mount the iso from step 1 on the CDROM device. Boot. From the installer, choose "Install".
+1. Download **debian-12.10.0-amd64-netinst.iso** (Debian "bookworm" _"stable"_ release, _"netinst"_ image) via [https://www.debian.org/releases/](https://www.debian.org/releases/).
+2. Create a virtual machine with at least 2 cores, 2GB RAM, VMSVGA video adapter, 16MB video memory and 100GB hard disk. Mount the iso from step 1 on the CDROM device. Boot. From the installer, choose "Install".
 3. In the "Set up users and passwords" step, provide "Pass@word1" as the password for the root user. Next, create a user with the Full Name set as "Kutti Admin" and username as "kuttiadmin". The password should again be "Pass@word1".
 4. In the "Partition Disks" step, choose "Manual". Select the hard disk. Create a new, empty partition table on it. Select the "Free Space" on the hard disk. Create a new partition, using the maximum space available, type Primary. Set the Bootable flag to on. Finish partitioning and write the changes to disk. _Confirm that you do not want swap space_, and continue the installation.
 5. In the "Software Selection" step, choose _only_ "SSH server".
@@ -40,9 +40,9 @@ The following instructions are for manual building of images. For automated buil
 25. Use SSH to log on to the installation VM as kuttiadmin. Go to the **kutti-installscripts** directory and run `chmod +x *.sh`.
 26. Run `KUBE_VERSION=<version> ./setup-kubernetes.sh` to install kubernetes with containderd. Currently suppported versions are:
 
-* 1.27
-* 1.28
-* 1.29
+* 1.30
+* 1.31
+* 1.32
 
 
 27. Verify that kubeadm is installed by running `kubeadm`. Verify the kubectl autocomplete works.

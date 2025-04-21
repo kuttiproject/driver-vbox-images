@@ -10,20 +10,20 @@ packer {
 variable "iso-url" {
   # Location of the base debian netinst iso
   type    = string
-  default = "./iso/debian-12.7.0-amd64-netinst.iso"
+  default = "./iso/debian-12.10.0-amd64-netinst.iso"
 }
 
 variable "iso-checksum" {
   # Checksum of the base debian netinst iso
   type    = string
-  default = "sha256:8fde79cfc6b20a696200fc5c15219cf6d721e8feb367e9e0e33a79d1cb68fa83"
+  default = "sha256:ee8d8579128977d7dc39d48f43aec5ab06b7f09e1f40a9d98f2a9d149221704a"
 }
 
 source "virtualbox-iso" "kutti-base" {
   # Before using this script, you need to obtain a debian
   # netinst ISO, and put it in a folder called "iso".
   # The iso name and its checksum should be updated here.
-  # The last build used debian 10.6.0.
+  # The last build used debian 12.10.0.
   iso_url      = "${var.iso-url}"
   iso_checksum = "${var.iso-checksum}"
 
@@ -64,28 +64,31 @@ source "virtualbox-iso" "kutti-base" {
   # Also see the commented preseed file to see what 
   # exactly gets installed and configured.
   boot_wait = "5s"
-  boot_command = [
-    "<esc><wait>",
-    "install <wait>",
-    "DEBIAN_FRONTEND=noninteractive <wait>",
-    "priority=critical <wait>",
-    "fb=false <wait>",
-    "auto=true <wait>",
-    "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed_buster.cfg <wait>",
-    "domain=kuttiproject.org <wait>",
-    "hostname=kutti <wait>",
-    "<enter><wait>"
-  ]
   # boot_command = [
   #   "<esc><wait>",
   #   "install <wait>",
+  #   "DEBIAN_FRONTEND=noninteractive <wait>",
+  #   "priority=critical <wait>",
   #   "fb=false <wait>",
   #   "auto=true <wait>",
-  #   "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed_buster.cfg <wait>",
+  #   "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed_bookworm.cfg <wait>",
   #   "domain=kuttiproject.org <wait>",
   #   "hostname=kutti <wait>",
   #   "<enter><wait>"
   # ]
+  # This is an alternative boot command, which is still
+  # automatic, but keeps the UI visible so that install
+  # progress can be visually tracked.
+  boot_command = [
+    "<esc><wait>",
+    "install <wait>",
+    "fb=false <wait>",
+    "auto=true <wait>",
+    "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed_bookworm.cfg <wait>",
+    "domain=kuttiproject.org <wait>",
+    "hostname=kutti <wait>",
+    "<enter><wait>"
+  ]
 
 
   # Although this step needs no ssh, these settings must be
