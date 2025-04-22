@@ -68,6 +68,23 @@ echo "Done."
 echo "==> Adding/editing directories and files..."
 
 ## Patch networking
+## Replace the /etc/network/interfaces file completely, because 
+## there seems to be a problem with VirtualBox 7 on Linux
+cat >/etc/network/interfaces <<EOINTERFACES
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+iface eth0 inet dhcp
+
+EOINTERFACES
 ## Adding a 2 sec delay to the interface up, to make the dhclient happy
 echo "pre-up sleep 2" >> /etc/network/interfaces
 
