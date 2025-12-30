@@ -22,6 +22,12 @@ Details of creating releases can be found in [RELEASE.md](RELEASE.md).
 
 Releases will usually follow the major and minor version number of the [driver-vbox](https://github.com/kuttiproject/driver-vbox) project. Sometimes, this repository's releases may lag by a version.
 
+### Image Kubernetes Versions and deprecation policy
+
+The latest release in this repository contains .ova images for the current version of Kubernetes, and up to five versions before that. The current version and two versions before that are supported, the three before that are deprecated (meaning you can run existing clusters created using them, but not create new clusters). Images of versions before that are deleted.
+
+Images in releases earlier than the latest are also deleted.
+
 ## Components
 
 The images in this repository are built from open source components. Details can be found in [COMPONENTS.md](COMPONENTS.md).

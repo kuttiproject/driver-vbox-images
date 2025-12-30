@@ -24,7 +24,7 @@ case "${KUBE_VERSION}" in
   "1.31" | "1.32" | "1.33")
     SANDBOX_IMAGE_VERSION="3.10"
     ;;
-  "1.34")
+  "1.34" | "1.35")
     SANDBOX_IMAGE_VERSION="3.10.1"
     ;;
   *)
