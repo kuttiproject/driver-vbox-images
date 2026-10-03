@@ -98,7 +98,8 @@ source "virtualbox-ovf" "kutti-vbox" {
   format = "ova"
 
   # The output file should be called kutti-vbox.ova
-  vm_name = "kutti-vbox"
+  vm_name = "kutti-${var.kube-version}"
+
 
   headless = true
 }
@@ -142,7 +143,7 @@ build {
     # define the interface between the driver
     # and the OS in the VMs.
     sources = [
-      "attachments/kutti-installscripts/"
+      "attachments/kutti-scripts/"
     ]
 
     destination = "/opt/kutti/scripts"
