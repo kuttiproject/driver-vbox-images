@@ -8,7 +8,7 @@ This repository contains build instructions and Packer scripts for building imag
 
 ## Building Images
 
-Images can be built by manually following the instructions in [BUILDING.md](BUILDING.md), or by running the Packer scripts as detailed in [PACKER.md](PACKER.md).
+Images can be built by running the included Hashicorp Packer scripts as detailed in [PACKER.md](PACKER.md).
 
 ## Releases
 

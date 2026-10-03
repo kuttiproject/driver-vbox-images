@@ -8,25 +8,24 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 
 # Install VirtualBox Guest Additions
-echo "==> Installing VirtualBox guest additions"
-
+echo "==> Installing VirtualBox Guest Additions"
+# 1. Install prerequisites and FastTrack archive keyring
 apt-get update
+apt-get install -y ca-certificates gpg fasttrack-archive-keyring
 
-## Install build packages
-echo "Installing build packages..."
-apt-get install -y dkms build-essential "linux-headers-$(uname -r)" libxt6 libxmu6
-echo "Done."
-   
-## Assuming that the Guest Additions CD has been "attached"
-echo "Building guest additions..."
-mount -r /media/cdrom
-BUILDERR=0
-sh /media/cdrom/VBoxLinuxAdditions.run --nox11|| BUILDERR=$? 
-if [ "$BUILDERR" != "2" ] && [ "$BUILDERR" != "0" ]; then
-    echo 2>&1 "Error while building guest additions: code $BUILDERR"
-    exit $BUILDERR
-fi
-umount /media/cdrom
+# 2. Add FastTrack and Backports sources for Debian 12 (Bookworm)
+cat << EOF > /etc/apt/sources.list.d/bookworm-fasttrack.sources
+Types: deb deb-src
+URIs: http://fasttrack.debian.net/debian-fasttrack/
+Suites: bookworm-fasttrack bookworm-backports-staging
+Components: main contrib
+Enabled: yes
+EOF
+
+# 3. Update apt and install pre-compiled guest utilities
+apt-get update
+apt-get install -y virtualbox-guest-utils
+
 echo "Done."
 
 # Update GRUB settings
@@ -89,8 +88,8 @@ EOINTERFACES
 echo "pre-up sleep 2" >> /etc/network/interfaces
 
 ## Set up directory for later copying of kutti interface scripts
-mkdir -p /home/kuttiadmin/kutti-installscripts
-chown kuttiadmin:kuttiadmin /home/kuttiadmin/kutti-installscripts
+mkdir -p /opt/kutti/scripts
+chown kuttiadmin:kuttiadmin /opt/kutti/scripts
 
 ## Set up basic motd
 echo "Welcome to kutti." > /etc/motd
@@ -109,4 +108,3 @@ chpasswd <<EOPASSWD
 user1:Pass@word1
 EOPASSWD
 adduser user1 sudo
-

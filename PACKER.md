@@ -5,9 +5,11 @@ The images for this repository can be built using HashiCorp [Packer](https://www
 The build is done in two steps. The first step builds a base operating system image. The
 second step can be run multiple times to generate images for different versions of Kubernetes.
 
+Preferably, use the Makefile or the Invoke-Build script (described below).
+
 ## Build Prerequisites
 
-1. Oracle VirtualBox, version 6.0 or above. The `VBoxManage` tool must be on the path.
+1. Oracle VirtualBox, version 7.1 or above. The `VBoxManage` tool must be on the path.
 2. HashiCorp Packer, version 1.7.2 or above. NOTE: 1.8.0 has a problem with OVA files.
 3. A Debian netinst ISO image. This has to be downloaded into a folder called ISO in this directory, and its name and checksum updated in the `kutti.step1.pkr.hcl` file.
 
@@ -37,7 +39,7 @@ The first step is the script `kutti.step1.pkr.hcl`, which builds an OVA file fro
 
 The second step is the script `kutti.step.pkr.hcl`. This starts from a VM created from the output of the previous step, and does the following:
 
-* Builds VirtualBox Guest Additions
+* Installs VirtualBox Guest Additions
 * Configures GRUB for:
   * zero wait at boot
   * use of fixed network interface names like eth0
@@ -55,6 +57,8 @@ The second step is the script `kutti.step.pkr.hcl`. This starts from a VM create
 
 The steps described above can also be performed via a supplied makefile and GNU make.
 `make step1` and `make step2` can be used.
+
+They can also be performed via the supplied build script invoke.build.ps1 and [Invoke-Build](https://github.com/nightroman/Invoke-Build). You can use `Invoke-Build step1` and `Invoke-Build step2`.
 
 ## Publishing a release
 

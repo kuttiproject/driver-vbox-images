@@ -24,7 +24,7 @@ case "${KUBE_VERSION}" in
   "1.31" | "1.32" | "1.33")
     SANDBOX_IMAGE_VERSION="3.10"
     ;;
-  "1.34" | "1.35")
+  "1.34" | "1.35" | "1.36" | "1.37")
     SANDBOX_IMAGE_VERSION="3.10.1"
     ;;
   *)
@@ -112,3 +112,7 @@ echo "Installing kubectl autocomplete..."
 kubectl completion bash >/etc/bash_completion.d/kubectl
 echo "Done."
 
+## Add Helm
+echo "Adding Helm 4..."
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+echo "Done."

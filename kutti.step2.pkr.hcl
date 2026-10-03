@@ -145,7 +145,7 @@ build {
       "attachments/kutti-installscripts/"
     ]
 
-    destination = "/home/kuttiadmin/kutti-installscripts"
+    destination = "/opt/kutti/scripts"
   }
 
   provisioner "shell" {
