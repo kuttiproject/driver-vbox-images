@@ -84,8 +84,26 @@ auto eth0
 iface eth0 inet dhcp
 
 EOINTERFACES
+
 ## Adding a 2 sec delay to the interface up, to make the dhclient happy
 echo "pre-up sleep 2" >> /etc/network/interfaces
+
+## Prepend public DNS servers in dhclient.conf
+## This is required because VirtualBox 7.2 has issues with DNS
+## - https://github.com/VirtualBox/virtualbox/issues/447
+echo "==> Prepending DNS via dhclient (Most Reliable for DHCP) ==="
+DHCLIENT_CONF="/etc/dhcp/dhclient.conf"
+
+if [ -f "$DHCLIENT_CONF" ]; then
+    # Remove existing custom prepend entries to avoid duplicates
+    sed -i '/prepend domain-name-servers/d' "$DHCLIENT_CONF"
+    
+    # Inject the public DNS ahead of dynamically assigned ones
+    echo 'prepend domain-name-servers 8.8.8.8, 1.1.1.1;' >> "$DHCLIENT_CONF"
+    echo "Successfully prepended DNS in $DHCLIENT_CONF"
+else
+    echo "$DHCLIENT_CONF not found. Skipping dhclient configuration."
+fi
 
 ## Set up directory for later copying of kutti interface scripts
 mkdir -p /opt/kutti/scripts
